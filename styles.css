@@ -1,0 +1,384 @@
+
+
+:root{
+    --margin-bottom: 10px;
+    --label-padding-right: 2px;
+    --label-width: 200px;
+    --widget-width: 200px;
+    --border-radius: 4px;
+    --main-padding: 30px;
+    --input-text-size: 14px;
+    --color-main: #5D6063;
+}
+
+@media (min-width: 1200px) {  
+body, h2, h4, h5, h6, input { 
+        padding: 0;
+        margin: 0;
+        outline: none;
+        font-family: "DejaVu Sans", "Arial", sans-serif;
+        font-size: 14px;
+        color: #666;
+}
+}
+h1, h3 {
+
+    font-weight: 100;
+    }
+    h1 {
+        font-size: 20px;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        outline: none;
+        font-family: "DejaVu Sans", "Arial", sans-serif;
+        color: #666;
+}
+        
+    h4{
+        padding: 3px 0;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center; 
+        line-height: 1;      
+    }
+
+    h5{
+        padding: 3px 0;
+        font-weight:lighter;
+        font-size: 12px;
+        text-align: center;  
+        line-height: 1;      
+    }
+
+    h2{
+        padding: 3px 0;
+        font-weight:500;
+        font-size: 12px;
+        text-align: left;  
+        line-height: 1;  
+    }
+
+    h6{
+        padding: 3px 0;
+        font-weight:500;
+        font-size: 10px;
+        text-align: left;  
+        line-height: 1.2;
+        color: rgb(64, 64, 64);  
+    }
+    li{
+        line-height: 2;
+    }
+
+     div, select, textarea, p { 
+    padding: 0;
+    margin: 0;
+    font-family: "DejaVu Sans", "Arial", sans-serif;
+    font-size: 14px;
+    color: #666;
+    line-height: 19px;
+    }
+
+    
+.main-block, .info {
+        display: flex;
+        flex-direction: column;
+        }
+
+.main-block {
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: inherit;
+        padding: 3px;
+        background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,66,121,1) 20%, rgba(0,212,255,1) 100%);
+        border-radius: 5px;
+        background-size: cover;
+}
+@media (min-width: 1200px) { 
+form {  
+    width: 50%; 
+    padding: 5px 20px 15px 20px;
+    margin: 10px;
+    border-radius: 5px; 
+    border: solid 3px #ccc;
+    background: #fff;
+    box-shadow: 0 2px 5px #ccc; 
+    box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
+    display: block;
+    flex-grow: 1;
+}
+}    
+.form-row input[type='text1']{
+            border-radius: var(--border-radius);
+            color: var(--color-main);
+            font-size: var(--input-text-size);
+            background-color: rgb2(255,255,2555);
+            border: 1px solid rgb(186,189,190);
+            width: var(--widget-width);
+            
+}
+
+.form-row input[type='text2']{
+            border-radius: var(--border-radius);
+            color: var(--color-main);
+            font-size: var(--input-text-size);
+            background-color: rgb2(255,255,2555);
+            border: 1px solid rgb(186,189,190); 
+            width: 300px;
+}
+
+.form-row input[type='text3']{
+            border-radius: var(--border-radius);
+            color: var(--color-main);
+            font-size: var(--input-text-size);
+            background-color: rgb2(255,255,2555);
+            border: 1px solid rgb(186,189,190);
+            width: 600px;
+            display:flex;
+            flex-direction: column-reverse;
+            margin-bottom: 0px;
+}
+
+.form-row input[type='text4']{
+            border-radius: var(--border-radius);
+            color: var(--color-main);
+            font-size: var(--input-text-size);
+            background-color: rgb2(255,255,2555);
+            border: 1px solid rgb(186,189,190);
+            width: 500px;
+            display:flex;
+            flex-direction: column-reverse;
+            margin-bottom: 0px;
+}
+.form-row input[type='text5']{
+    border-radius: var(--border-radius);
+    color: var(--color-main);
+    font-size: var(--input-text-size);
+    background-color: rgb2(255,255,2555);
+    border: 1px solid rgb(186,189,190);
+    padding: 4px;
+    width: 250px;
+}
+input[type="text6"] {
+    border-radius: var(--border-radius);
+    color: var(--color-main);
+    font-size: 12px;
+    background-color: rgb2(255,255,2555);
+    border: 1px solid rgb(186,189,190);
+    padding: 0px;
+    width: 18px;
+    margin-bottom: 0px;
+  }
+
+.form-row label{
+    margin-bottom: 20px;
+    padding-right: var(--label-padding-right);
+    text-align: right;
+    margin-top: 5px;
+    width: var(--label-width);
+}
+
+.form-row label::after{
+
+    content: attr(aria-label)
+}
+
+.form-row label[type='text3']{
+    padding-left: 200px;
+    text-align: right;
+    margin-top: 5px;
+    width: var(--label-width);
+    flex-direction: column-reverse;
+    font-size: 11px;
+}
+
+.form-row label[type='text2']{
+    padding-left: 320px;
+    text-align: right;
+    margin-top: 5px;
+    width: var(--label-width);
+    flex-direction: column-reverse;
+    font-size: 14px;
+}
+
+.inline {
+    width: unset;
+    margin: 0 0.10em 0 0;
+    vertical-align: middle;
+  }
+
+
+input, select, textarea {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    }
+  
+input:hover, select:hover, textarea:hover {
+    outline: none;
+    box-shadow: 0 0 5px 0 #095484;
+    }
+
+   
+input {
+    width: calc(30% - 10px);
+    padding: 5px;
+    }
+    
+input{
+    box-sizing:border-box
+}
+select {
+    width: 100%;
+    padding: 7px 0;
+    background: transparent;
+    }
+textarea {
+    width: calc(50% - 2px);
+    padding: 5px;
+    }
+
+.item {
+        position: relative;
+        margin: 20px 0;
+        }
+.item:hover p, .item:hover i {
+        color: #095484;
+        }
+input:hover, select:hover, textarea:hover {
+    box-shadow: 0 0 5px 0 #095484;
+    }
+.status:hover input {
+    box-shadow: none;
+    }
+.status label:hover input {
+    box-shadow: 0 0 5px 0 #095484;
+    }
+.status-item input, .status-item span {
+    width: auto;
+    vertical-align: middle;
+    }
+
+.status-item input {
+        margin: 0 0.10em 0 0;
+    }
+
+.status-item span {
+        margin: 0 0.10em 0 0;
+    }
+.btn-block {
+    margin-top: 20px;
+    text-align: center;
+    }
+ button {
+    width: 150PX;
+    padding: 10px;
+    border: none;
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px; 
+    background-color: #095484;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    }
+button:hover {
+    background-color: #0666a3;
+    }
+
+input::-webkit-inner-spin-button,
+input::-webkit-clear-button {
+      display: block;
+    }
+    
+input::-webkit-calendar-picker-indicator {
+      color: rgba(0, 0, 0, 0);
+      opacity: 1;
+    }
+    
+input::-webkit-calendar-picker-indicator:hover {
+      background: none;
+      cursor: pointer;
+    }
+    
+input [type="date"]::-webkit-calendar-picker-indicator::after {
+      display: block;
+      width: 32px;
+      height: 32px;
+      position: absolute;
+      font-family: 'FontAwesome';
+      content: '\f073';
+      top: 50%;
+      right: 0;
+      margin-top: -16px;
+    }
+
+
+canvas#can {
+    cursor: pointer;
+    border-bottom: 1px solid #000;
+    border-radius: 1px;
+ 
+      }
+
+button#clear
+{
+    width: 50px;
+    padding: 5px;
+    border: none;
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px; 
+    background-color: #b4bcc2;
+    font-size: 12px;
+    color: #fff;
+    cursor: pointer;
+    line-height: 22px;
+    vertical-align:middle;
+    margin-left: 5px;
+
+}
+    
+logo {   
+    float: left;
+}
+img{
+    margin: 8px 0 0 30px;
+    padding: 4px;
+    width: 170px;
+    margin-bottom: 10px;
+}
+
+  @media (pointer: coarse) {
+    body {
+      overflow: hidden; /* Needed to prevent the vertical scroll on touch devices */
+    }
+  }
+
+  .theseDivs{
+    border: 2px solid #000000;
+  }
+  
+  table, th, td
+  {
+  border: 1px solid black;
+  font-family: "DejaVu Sans", "Arial", sans-serif;
+  text-align: center;
+  border-collapse: collapse;
+  padding: 0.2rem 0.5rem;
+  }
+
+  .footer {
+    font-size: 12px;
+    text-align: center;
+    bottom: 0; 
+    left: 0; 
+    z-index: 10;
+}
+
+.formConfirmation {
+    font-family: "DejaVu Sans", "Arial", sans-serif;
+  } 
+

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <title>Authorization To Close An Account</title>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="crossorigin="anonymous"></script>
+        <script src="http://www.createchhk.com/jquery.signaturepad.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.12.3.min.js"></script>
+        <script src="http://kendo.cdn.telerik.com/2016.2.504/js/angular.min.js"></script>
+        <script src="http://kendo.cdn.telerik.com/2016.2.504/js/jszip.min.js"></script>
+        <script src="http://kendo.cdn.telerik.com/2016.2.504/js/kendo.all.min.js"></script>
+        <link rel="stylesheet" href="styles.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        
+
+        <script>
+            /*
+                This demo renders the grid in "DejaVu Sans" font family, which is
+                declared in kendo.common.css. It also declares the paths to the
+                fonts below using <tt>kendo.pdf.defineFont</tt>, because the
+                stylesheet is hosted on a different domain.
+            */
+            kendo.pdf.defineFont({
+              "DejaVu Sans"             : "https://kendo.cdn.telerik.com/2023.1.117/styles/fonts/DejaVu/DejaVuSans.ttf",
+              "DejaVu Sans|Bold"        : "https://kendo.cdn.telerik.com/2023.1.117/styles/fonts/DejaVu/DejaVuSans-Bold.ttf",
+              "DejaVu Sans|Bold|Italic" : "https://kendo.cdn.telerik.com/2023.1.117/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+              "DejaVu Sans|Italic"      : "https://kendo.cdn.telerik.com/2023.1.117/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+              "WebComponentsIcons"      : "https://kendo.cdn.telerik.com/2023.1.117/styles/fonts/glyphs/WebComponentsIcons.ttf"
+            });
+          </script>
+
+    </head>
+    <script type="text/javascript">
+        var canvas, canvas2, ctx, ctx2, flag = false, flag2 = false,
+        prevX = 0,
+        currX = 0,
+        prevY = 0,
+        currY = 0,
+        dot_flag = false,
+		prevX2 = 0,
+        currX2 = 0,
+        prevY2 = 0,
+        currY2 = 0,
+        dot_flag2 = false;
+
+    var x = "blue",
+        y = 3;
+    
+    function init() {
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+		
+		canvas2 = document.getElementById('can2');
+        ctx2 = canvas2.getContext("2d");
+    
+        canvas.addEventListener("mousemove", function (e) {
+            findxy(canvas, 'move', e)
+        }, false);
+        canvas.addEventListener("mousedown", function (e) {
+            findxy(canvas, 'down', e)
+        }, false);
+        canvas.addEventListener("mouseup", function (e) {
+            findxy(canvas, 'up', e)
+        }, false);
+        canvas.addEventListener("mouseout", function (e) {
+            findxy(canvas, 'out', e)
+        }, false);
+		
+		canvas2.addEventListener("mousemove", function (e) {
+            findxy(canvas2, 'move', e)
+        }, false);
+        canvas2.addEventListener("mousedown", function (e) {
+            findxy(canvas2, 'down', e)
+        }, false);
+        canvas2.addEventListener("mouseup", function (e) {
+            findxy(canvas2, 'up', e)
+        }, false);
+        canvas2.addEventListener("mouseout", function (e) {
+            findxy(canvas2, 'out', e)
+        }, false);
+    }
+
+    function draw(c) {
+		const ctx = c.getContext('2d');
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(currX, currY);
+        ctx.strokeStyle = x;
+        ctx.lineWidth = y;
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    function erase(c) {
+        const ctx = c.getContext('2d');
+        ctx.clearRect(0, 0, c.width, c.height);
+       
+    }
+    
+    function save() {
+        document.getElementById("canvasimg").style.border = "2px solid";
+        var dataURL = canvas.toDataURL();
+        document.getElementById("canvasimg").src = dataURL;
+        document.getElementById("canvasimg").style.display = "inline";
+    }
+   
+    function findxy(c, res, e) {
+        if (res == 'down') {
+            prevX = currX;
+            prevY = currY;
+            currX = e.clientX - c.getBoundingClientRect().left;
+            currY = e.clientY - c.getBoundingClientRect().top;
+    
+            flag = true;
+            dot_flag = true;
+            if (dot_flag) {
+                ctx.beginPath();
+                ctx.fillStyle = x;
+                ctx.fillRect(currX, currY, 2, 2);
+                ctx.closePath();
+                dot_flag = false;
+            }
+        }
+        if (res == 'up' || res == "out") {
+            flag = false;
+        }
+        if (res == 'move') {
+            if (flag) {
+                prevX = currX;
+                prevY = currY;
+                currX = e.clientX - c.getBoundingClientRect().left;
+                currY = e.clientY - c.getBoundingClientRect().top;
+                draw(c);
+            }
+        }
+    }
+
+    function download() {
+        var link = document.createElement('a');
+        var dataURL = canvas.toDataURL();
+        link.href = dataURL;
+        link.download = 'mydrawing.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    </script>
+<body>
+    <div id="formConfirmation" class="main-block">
+        <form action="/" method="post">  
+            <div class="logo">
+                <img src="./images/Wescom Financial.jpg" alt="Wescom Logo Black and White">
+            </div>
+            <div class="form-row">
+            <p>
+                <h1>AUTHORIZATION TO CLOSE AN ACCOUNT</h1>
+                <h5>Full Membership, Special Purpose, Checking, Money Market, Certificates</h5>
+                <h5>(Excludes IRA Products)</h5>
+            </p>
+        </div>
+            </br>
+            <div class="form-row">
+                <label for="membername" type="text1">Member Name:</label>  
+                <input type="text1" name="membername" id="membername"> 
+                <label for="SSN" type="text1">Social Security #:</label>   
+                <input type="text1" name="SSN" id="SSN">                        
+            </div>
+            <div class="form-row">
+                <label for="accountnumber" type="text1">Account Number:</label>  
+                <input type="text1" name="accountnumber" id="accountnumber"> 
+                <label for="dayphone" type="text1">Daytime Phone Number:</label>   
+                <input type="text1" name="dayphone" id="dayphone">   
+            <div class="status-item">
+                <label for="fullmember" type="text1">Please close (check one):</label>  
+                <label><input type="checkbox" name="fullmember" id="fullmember"> <span>Full Membership</span></label>
+                <label><input type="checkbox" name="subaccount" id="subaccount"> <span>Sub-Account(s):</span></label>
+                <input type="text5" name="subaccount"/>
+            </div> 
+            </br>
+            <p><h2>I hereby authorize Wescom Credit Union to cancel my Membership or close the sub-account(s) listed above.
+                 I understand as a result of this request the following services may be affected:</h2></p>                              
+            </div> 
+            <ul style="list-style-type:square; margin-right: 40px;">
+                <li><h2 style="line-height: 1.2;">If I cancel my membership, my VISA credit card will also be closed. 
+                    I understand that I am still responsiblefor any outstanding balances and it may not be reopened without a complete loan application and creditreview.
+                    I further understand that by closing my credit card, all outstanding MyRewards points will be forfeited.
+                </h2></li>
+
+                <li><h2 style="line-height: 1.2;">Checks and other authorized debits presented for payment drawn against this Checking sub-account, 
+                    except for those listed on the “Request for Items to be Paid” form may be returned “ACCOUNT CLOSED”. 
+                </h2></li>
+
+                <div class="form-row"><h2> 
+                    <input style="margin-right: 5px;" type="text6" name="outstanding" id="outstanding"/>Please initial if you do not have any outstanding items.
+                </h2></div>
+                
+                <li><h2 style="line-height: 1.2; padding: 0px;">If my Checking sub-account is closed, my Debit Card will also be closed. 
+                    I certify that I have not made anydebit card transactions that have been authorized that have not yet posted. 
+                    If any authorized debit cardtransaction posts after the account has been closed, 
+                    funds will be deducted causing a negative balancewhich must be paid within seven (7) days.
+                </h2></li>
+
+                <div class="form-row"><h2> 
+                    <label><input style="width: 15px; margin-bottom: 0px;" type="checkbox" name="atmcard" id="atmcard"> 
+                    <span style="font-weight: 600;">Please check if you would like an ATM card issued for your open savings account(s)</span></label>
+                </h2></div>
+                
+                <li><h2 style="line-height: 1.2;">If I have a pre-authorized payment (e.g., life insurance, health club, etc.), 
+                    I need to notify the company andmake other payment arrangements. 
+                    If I am opening, or have another open share on this membershipaccount, 
+                    I need to supply the company with the new nine (9) digit account number for electronic debits tocontinue and to be paid from the open share.
+                </h2></li>
+
+                <li><h2 style="line-height: 1.2;">If this sub-account(s) served as my source for overdraft protection and automatic loan payments, 
+                    I will needto make other arrangements. I further understand that if I am receiving a loan discount for auto paymentsfrom this sub-account, 
+                    and no other arrangements are made to continue automatic payments from a differentChecking sub-account, 
+                    I forfeit that discount and understand that I may not opt back in.
+                </h2></li>
+
+                <li><h2 style="line-height: 1.2;">If this sub-account(s) served as my source for eBranch BillPayer, 
+                    I will need to make other arrangements, asbill payments will no longer be paid from this sub-account(s).
+                </h2></li>
+
+                <li><h2 style="line-height: 1.2;">If this sub-account(s) received my direct deposit, ACH deposit or payroll deductions, 
+                    I will need to notify thecompany and make other arrangements. Direct deposits received after the closure date may be returned tothe sender. 
+                    If I am opening, or have another open share on this membership account, I need to supply thecompany with the new nine (9) digit account number 
+                    for electronic deposits to continue and be deposited tothe open share.
+                </h2></li>
+            </ul>
+            <p><h6>I understand that if my regular share account (Share-00) is closed, I am terminating my membership with Wescom Credit Union.  
+                However,  I   may  reinstate  my  membership    within 90   days of   closure    and  re-open  the    same account  within  30  days  of  the  closure  date.  
+                If    30  days  have  elapsed  since    the  initial  closure  date,  reopening  fees  may  apply  and  a    new account may be established. 
+                After the 90-day  period  I  will  only be  eligible  if  I  am  still  employed  by  a  sponsor  company  or  retired  from  a    sponsor  company,   
+                or  if    I   continue  to  live,  work,  or  worship  in   Southern California.  
+                I   may  also  be  eligible  if  any  memberof  my  immediate  family  is  a  member  in  good  standing  with  the  Credit  Union.  
+                Other qualifications may apply.</h6></p>                             
+
+                <div class="form-row" onmousemove="init()"> 
+                    <canvas id="can" width="300" height="50"></canvas>        
+                    <button type="button" value="clear" id="clear" onclick="erase(canvas)">Clear</button>                                                                           
+                </div>
+                <div class="form-row"> 
+                    <label for="signature" type="label"><strong>Signature</strong></label> 
+                    <input style="margin-left:80px; border:transparent; width: 150px;" type="date" name="date" >                                                
+                </div>
+            </br>
+            </br>
+            <div class="form-row">
+            <label style="font-size: 12px;" for="note" type="label">If you have Items to be Paid, please</label> 
+            <button style="width: 80px; line-height: 14px; font-size: 13px;" type="button" value="submit" id="submit">Click Here</button>
+            <label style="font-size: 12px; margin-left: 40px;" for="note" type="label">If you do not have Items to be Paid, please</label>
+            <button style="width: 80px; line-height: 14px; font-size: 13px;" type="button" id="export-pdf" value="submit">Submit</button>
+            </div>
+            </br>
+            <div class="theseDivs">
+                <div>
+                <p>
+                    <h5 style="color:black; font-weight: 600;"><u>For Credit Union Use Only</u></h5>
+                </p>
+                </div>
+            </br>           
+                <div class="form-row">
+                    <label style="font-size: 12px ; margin-left: 10px;" for="closeby" type="text">Closed by:</label>  
+                    <input style="width: 160px;" type="text1" name="closeby" id="closeby"> 
+                    <label style="font-size: 12px ;"  for="branchuser" type="text1">Branch/User#:</label>   
+                    <input style="width: 180px;" type="text1" name="branchuser" id="branchuser">  
+                    <label style="font-size: 12px ;"  for="Date" type="text1">Date:</label> 
+                    <input style="width: 150px;" type="date" name="date" >    
+                                  
+                </div>
+            </div>
+            </br> 
+            <div class="footer">1</div>
+            <p><h6 style="font-size: 9px; text-align: right;">Form 202 (06/21)</h6></p> 
+        </form>
+           
+<!-- ******************************************************************************************************************************************************************************** -->   
+
+        <form id="formone" style="display: none;" action="/" method="post"> 
+            <div class="logo">
+                <img src="./images/Wescom Financial.jpg" alt="Wescom Logo Black and White">
+            </div>
+            <div class="form-row">
+            <p>
+                <h1>REQUEST FOR ITEMS TO BE PAID</h1>
+            </p>
+        </div>
+        </br>
+            <div class="form-row">
+                <p><h2>I, <input style="padding: 3px;" type="text1" name="closeby" id="closeby">, closed my account # <input style="width: 100px; padding: 3px;" type="text1" name="closeby" id="closeby"> 
+                     OR share <input style="width: 100px; padding: 3px;" type="text1" name="closeby" id="closeby">  on account #<input style="width: 100px; padding: 3px;" type="text1" name="closeby" id="closeby">.
+                     There are pending debits which are outstanding. I request the following items to be paid on my new account # <input style="width: 100px; padding: 3px;" type="text1" name="closeby" id="closeby">,
+                      suffix <input style="width: 100px; padding: 3px;" type="text1" name="closeby" id="closeby">.</h2></p> 
+            </div>
+            <h4 style="text-align: left; font-size: 16px; padding: 5px 0px;">Checks</h4>
+                <table style="width:100%">
+                    <tr>
+                      <th style="width:25%">Check Number</th>
+                      <th style="width:25%">Amount</th>
+                      <th>Payable To</th>
+                    </tr>  
+                    <tr>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="checknumber" name="checknumber"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="payableto" name="payableto"></th>
+                    </tr> 
+                    <tr>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="checknumber" name="checknumber"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="payableto" name="payableto"></th>
+                    </tr>  
+                    <tr>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="checknumber" name="checknumber"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="payableto" name="payableto"></th>
+                    </tr>  
+                    <tr>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="checknumber" name="checknumber"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="payableto" name="payableto"></th>
+                    </tr>                 
+                </table>
+            <h4 style="text-align: left; font-size: 16px; padding: 5px 0px;">Check Card Transactions</h4>
+            <table style="width:100%">
+                <tr>
+                  <th style="width:25%">Amount</th>
+                  <th>Paid To</th>
+                </tr>  
+                <tr>
+                    <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                    <th><input style="width:90%; margin-bottom: 0px;" type="text" id="paidto" name="paidto"></th>
+                </tr> 
+                <tr>
+                    <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                    <th><input style="width:90%; margin-bottom: 0px;" type="text" id="paidto" name="paidto"></th>
+                </tr>  
+                <tr>
+                    <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                    <th><input style="width:90%; margin-bottom: 0px;" type="text" id="paidto" name="paidto"></th>
+                </tr>                  
+            </table>
+            <h4 style="text-align: left; font-size: 16px; padding: 5px 0px;">ACH Transactions</h4>
+            <p><h2 style="padding-bottom: 10px;">I understand that I must update the originator of reoccurring transactions with my new account number, 
+                and that the deposits/payments listed below may be processed as a one-time courtesy.</h2></p>
+                <table style="width:100%">
+                    <tr>
+                      <th style="width:25%">Amount</th>
+                      <th style="width:25%">Approximate Date</th>
+                      <th>Company Name</th>
+                    </tr>  
+                    <tr>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="date" id="approxdate" name="approxdate"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="companyname" name="companyname"></th>
+                    </tr> 
+                    <tr>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="checknumber" name="checknumber"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="date" id="approxdate" name="approxdate"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="companyname" name="companyname"></th>
+                    </tr>  
+                    <tr>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="amount" name="amount"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="date" id="approxdate" name="approxdate"></th>
+                        <th><input style="width:90%; margin-bottom: 0px;" type="text" id="companyname" name="companyname"></th>
+                    </tr>                   
+                </table>
+                <p><h2 style="padding-top: 15px;">I understand that providing incorrect information can result in non-payment of an item(s). 
+                    I also understand that  the  credit  union  will  make  every  effort  to  redirect,  
+                    However,  there  is  no  guarantee  that  pending  transactions will be either paid or deposited, and may be returned.</h2></p>                   
+
+                        <div class="form-row" onmousemove="init()"> 
+                            <canvas id="can" width="300" height="50"></canvas>        
+                            <button type="button" value="clear" id="clear" onclick="erase(canvas)">Clear</button>                                                                           
+                        </div>
+                        <div class="form-row"> 
+                            <label for="signature" type="label"><strong>Signature</strong></label> 
+                            <input style="margin-left:90px; border:transparent; width: 150px;" type="date" name="date" >                                                
+                        </div>
+
+                    <div class="form-row">                                             
+                        <button style="margin-left:45%;  width: 80px; line-height: 14px; font-size: 13px;" type="button" id="export-pdf1" value="submit">Submit</button>
+                    </div>
+                    </br>
+                    <div class="theseDivs">
+                        <div>
+                            <p>
+                                <h5 style="color:black; font-weight: 600;">For Credit Union Use Only</h5>
+                            </p>
+                        </div>
+                            </br>                  
+                        <div class="form-row">
+                            <label style="font-size: 12px ; margin-left: 10px;" for="faxed1" type="text">Faxed to Account Services (626) 535-1154 by:</label>  
+                            <input style="width: 450px;" type="date" name="faxed1" id="faxed1"> 
+                        <div class="form-row">                       
+                            <label style="font-size: 12px;margin-left: 10px;"  for="faxed2" type="text">Faxed to Card Services (714) 701-5797 by:</label>   
+                            <input style="width: 450px;" type="date" name="faxed2" id="faxed2"> 
+                        </div> 
+                            <label style="font-size: 12px;margin-left: 10px;"  for="verifiedby" type="text">Verified by:</label> 
+                            <input style="width: 150px;" type="text" name="verifiedby" id="verifiedby">
+                            <label style="font-size: 12px ;"  for="branchuser" type="text">Branch/User#:</label>   
+                            <input style="width: 150px;" type="text" name="branchuser" id="branchuser"> 
+                            <label style="font-size: 12px ;"  for="Date" type="text">Date:</label> 
+                            <input style="width: 150px;" type="date" name="date"/>                         
+                        </div>
+                    </div>
+                </br> 
+                <div class="footer">2</div>
+                    <p><h6 style="font-size: 9px; text-align: right;">Form 202 (06/21)</h6></p> 
+        </form>
+    </div>
+    </body>  
+    
+    <script>
+        const form = document.getElementById('formone');
+        const button = document.getElementById('submit');
+      
+        button.addEventListener('click', function() {
+          if (form.style.display === 'none') {
+            form.style.display = 'block';
+          } else {
+            form.style.display = 'none';
+          }
+        });
+      </script>
+
+    <script>
+        $("#export-pdf").kendoButton({
+          click: function(e) {
+            kendo.drawing.drawDOM("#formConfirmation", {
+              forcePageBreak: ".pdf-export-page-break",
+              multiPage: true,
+              paperSize: "A3",
+              margin: {
+                top: "1mm",
+                left: "1mm",
+                right: "1mm",
+                bottom: "1mm"
+              },
+              repeatHeaders: true,
+              allPages: true,
+              avoidLinks: true,
+              landscape: true,
+              scale: 0.7,
+            })
+              .then(function(group) {
+              kendo.drawing.pdf.saveAs(group, "Authorization To Close Account.pdf");
+            });
+          }
+        });
+      </script>  
+      <script>
+        $("#export-pdf1").kendoButton({
+          click: function(e) {
+            kendo.drawing.drawDOM("#formConfirmation", {
+              forcePageBreak: ".pdf-export-page-break",
+              multiPage: true,
+              paperSize: "A3",
+              margin: {
+                top: "1mm",
+                left: "1mm",
+                right: "1mm",
+                bottom: "1mm"
+              },
+              repeatHeaders: true,
+              allPages: true,
+              avoidLinks: true,
+              landscape: true,
+              scale: 0.7,
+            })
+              .then(function(group) {
+              kendo.drawing.pdf.saveAs(group, "Authorization To Close Account.pdf");
+            });
+          }
+        });
+      </script>  
+      
+</html>
+
